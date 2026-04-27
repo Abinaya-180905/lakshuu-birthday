@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Lakshuuu 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose:    #f9a8c9;
+      --blush:   #ffd6e7;
+      --lavender:#e8d5f5;
+      --gold:    #f7c59f;
+      --deep:    #c2185b;
+      --text:    #5c2d4a;
+      --white:   #fff9fc;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Lato', sans-serif;
+      background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 25%, #e1bee7 55%, #ffd6e7 80%, #fce4ec 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease infinite;
+      overflow-x: hidden;
+      color: var(--text);
+    }
+
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ── Floating hearts ── */
+    .hearts-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .heart {
+      position: absolute;
+      bottom: -60px;
+      font-size: 1.4rem;
+      animation: floatUp linear infinite;
+      opacity: 0;
+      filter: drop-shadow(0 0 6px #f48fb1);
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(0.7) rotate(-15deg); opacity: 0; }
+      10%  { opacity: 0.8; }
+      90%  { opacity: 0.4; }
+      100% { transform: translateY(-110vh) scale(1.1) rotate(15deg); opacity: 0; }
+    }
+
+    /* ── COUNTDOWN OVERLAY ── */
+    #countdown-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: linear-gradient(135deg, #fce4ec, #e1bee7, #ffd6e7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.6s ease;
+    }
+    #countdown-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .tap-hint {
+      font-family: 'Lato', sans-serif;
+      font-size: 1.1rem;
+      color: #ad5f80;
+      letter-spacing: 2px;
+      margin-bottom: 32px;
+      animation: blink 1.6s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    #count-display {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(7rem, 25vw, 14rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #c2185b, #9c27b0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+    #count-display.pop {
+      animation: countPop 0.35s ease;
+    }
+    @keyframes countPop {
+      0%   { transform: scale(0.6); opacity: 0.3; }
+      60%  { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .tap-sub {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.9rem;
+      color: #ad5f80;
+      margin-top: 28px;
+      letter-spacing: 1px;
+    }
+
+    /* ── BIRTHDAY POPUP ── */
+    #bday-popup {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(92, 45, 74, 0.55);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    #bday-popup.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .popup-box {
+      background: #fff9fc;
+      border-radius: 36px;
+      padding: 52px 44px 44px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 24px 80px rgba(194,24,91,0.35);
+      border: 2px solid rgba(249,168,201,0.6);
+      animation: popBounce 0.5s cubic-bezier(.36,.07,.19,.97) both;
+      position: relative;
+    }
+    @keyframes popBounce {
+      0%   { transform: scale(0.5) translateY(60px); opacity: 0; }
+      70%  { transform: scale(1.06) translateY(-8px); opacity: 1; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    .popup-confetti { font-size: 3rem; letter-spacing: 8px; display: block; margin-bottom: 20px; animation: wiggle 0.8s ease infinite alternate; }
+    @keyframes wiggle { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
+    .popup-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 7vw, 2.8rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #c2185b, #9c27b0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .popup-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.3rem, 5vw, 1.8rem);
+      font-style: italic;
+      color: #c2185b;
+      margin-bottom: 20px;
+    }
+    .popup-msg {
+      font-size: 1rem;
+      color: #6d3a55;
+      line-height: 1.75;
+      font-weight: 300;
+      margin-bottom: 28px;
+    }
+    .popup-close {
+      background: linear-gradient(135deg, #c2185b, #9c27b0);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 40px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-style: italic;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 6px 24px rgba(194,24,91,0.3);
+    }
+    .popup-close:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(194,24,91,0.4); }
+
+    /* ── Page wrapper ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+      animation: fadeIn 1.6s ease both;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+    .top-badge {
+      text-align: center;
+      font-size: 2.4rem;
+      letter-spacing: 6px;
+      margin-bottom: 14px;
+      animation: fadeIn 1s 0.3s both;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 7vw, 4.2rem);
+      text-align: center;
+      line-height: 1.15;
+      background: linear-gradient(135deg, var(--deep) 0%, #9c27b0 60%, var(--deep) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(194,24,91,0.2));
+      animation: fadeIn 1s 0.5s both;
+      margin-bottom: 6px;
+    }
+
+    .name-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 5vw, 2.6rem);
+      text-align: center;
+      font-style: italic;
+      color: #9c27b0;
+      margin-bottom: 8px;
+      animation: fadeIn 1s 0.6s both;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: #ad5f80;
+      letter-spacing: 1px;
+      margin-bottom: 50px;
+      animation: fadeIn 1s 0.7s both;
+    }
+
+    /* ── Photo section ── */
+    .photos-row {
+      display: flex;
+      gap: 22px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeIn 1s 0.9s both;
+      margin-bottom: 28px;
+    }
+
+    .photo-card {
+      flex: 1 1 200px;
+      max-width: 260px;
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(194,24,91,0.22), 0 0 0 4px rgba(249,168,201,0.5);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .photo-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 24px 60px rgba(194,24,91,0.32), 0 0 0 6px rgba(249,168,201,0.7);
+    }
+    .photo-card img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      display: block;
+      filter: saturate(1.1) brightness(1.04);
+      transition: filter 0.4s;
+    }
+    .photo-card:hover img { filter: saturate(1.25) brightness(1.08); }
+
+    .photo-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 32px 16px 16px;
+      background: linear-gradient(transparent, rgba(92,45,74,0.72));
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      font-style: italic;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    .photo-card::before {
+      content: '🌸';
+      position: absolute;
+      top: 10px; right: 12px;
+      font-size: 1.4rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      z-index: 2;
+    }
+    .photo-card.us::before { content: '💕'; }
+
+    .row-label {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: #ad5f80;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .photos-section { margin-bottom: 50px; }
+
+    /* ── Message card ── */
+    .message-card {
+      background: rgba(255, 249, 252, 0.78);
+      backdrop-filter: blur(18px);
+      border: 1.5px solid rgba(249,168,201,0.5);
+      border-radius: 32px;
+      padding: 48px 44px;
+      box-shadow: 0 8px 40px rgba(194,24,91,0.1);
+      animation: fadeIn 1s 1.1s both;
+      margin-bottom: 50px;
+      position: relative;
+      overflow: hidden;
+    }
+    .message-card::after {
+      content: '💖';
+      position: absolute;
+      bottom: -20px; right: -10px;
+      font-size: 7rem;
+      opacity: 0.07;
+      pointer-events: none;
+    }
+
+    .message-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      color: var(--deep);
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .message-card p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: #6d3a55;
+      font-weight: 300;
+      margin-bottom: 14px;
+    }
+    .message-card p:last-child { margin-bottom: 0; }
+
+    .signature {
+      margin-top: 28px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--deep);
+      text-align: right;
+      font-style: italic;
+    }
+
+    /* ── Reasons section ── */
+    .reasons-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      text-align: center;
+      color: var(--deep);
+      margin-bottom: 28px;
+      animation: fadeIn 1s 1.3s both;
+    }
+
+    .reasons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      animation: fadeIn 1s 1.4s both;
+      margin-bottom: 60px;
+    }
+
+    .reason-pill {
+      background: linear-gradient(135deg, rgba(255,214,231,0.85), rgba(232,213,245,0.85));
+      border: 1px solid rgba(249,168,201,0.6);
+      border-radius: 20px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      box-shadow: 0 4px 16px rgba(194,24,91,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+      backdrop-filter: blur(10px);
+    }
+    .reason-pill:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 28px rgba(194,24,91,0.16);
+    }
+    .reason-pill .icon { font-size: 1.5rem; flex-shrink: 0; }
+    .reason-pill .text { font-size: 0.95rem; line-height: 1.55; color: #5c2d4a; }
+
+    /* ── Footer glow ── */
+    .footer {
+      text-align: center;
+      animation: fadeIn 1s 1.6s both;
+    }
+    .footer .glow-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--deep);
+      text-shadow: 0 0 20px rgba(249,168,201,0.8), 0 0 40px rgba(194,24,91,0.3);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { text-shadow: 0 0 20px rgba(249,168,201,0.8), 0 0 40px rgba(194,24,91,0.3); }
+      50%       { text-shadow: 0 0 30px rgba(249,168,201,1),   0 0 60px rgba(194,24,91,0.5); }
+    }
+    .footer .emoji-row { font-size: 2rem; letter-spacing: 8px; margin-top: 16px; }
+
+    .divider {
+      text-align: center;
+      margin: 0 auto 40px;
+      font-size: 1.3rem;
+      letter-spacing: 10px;
+      color: var(--rose);
+      opacity: 0.7;
+    }
+
+    @media (max-width: 560px) {
+      .message-card { padding: 32px 24px; }
+      .photos-row { gap: 14px; }
+      .popup-box { padding: 36px 24px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Countdown Overlay -->
+<div id="countdown-overlay">
+  <div class="tap-hint">✨ tap anywhere to begin ✨</div>
+  <div id="count-display">♡</div>
+  <div class="tap-sub">a surprise is waiting for Lakshuuu…</div>
+</div>
+
+<!-- Birthday Popup -->
+<div id="bday-popup">
+  <div class="popup-box">
+    <span class="popup-confetti">🎉🎂🎉</span>
+    <div class="popup-title">Happy Birthday!</div>
+    <div class="popup-name">My dearest Lakshuuu 💖</div>
+    <p class="popup-msg">
+      Today the whole world celebrates the day you arrived in it — and it's been a better, brighter, more joyful place ever since. Wishing you a birthday as magical, warm, and beautiful as you are! 🌸
+    </p>
+    <button class="popup-close" onclick="closePopup()">Enter my surprise 💕</button>
+  </div>
+</div>
+
+<!-- Floating hearts background -->
+<div class="hearts-bg" id="heartsBg"></div>
+
+<div class="page">
+
+  <div class="top-badge">🕯️ 🎂 🕯️</div>
+
+  <h1>Happy Birthday 💖</h1>
+  <div class="name-title">Lakshuuu</div>
+  <p class="subtitle">A day as beautiful as you are, my dearest friend</p>
+
+  <!-- Photos -->
+  <div class="photos-section">
+    <p class="row-label">Then &amp; Now 🌷</p>
+    <div class="photos-row">
+      <div class="photo-card">
+        <img src="child.jpeg" alt="Childhood photo" onerror="this.src='https://placehold.co/260x325/ffd6e7/c2185b?text=Little+Lakshuuu+🌱'"/>
+        <div class="photo-label">Then… little you 🌱</div>
+      </div>
+      <div class="photo-card">
+        <img src="present.jpeg" alt="Present photo" onerror="this.src='https://placehold.co/260x325/e8d5f5/9c27b0?text=The+Amazing+You+💖'"/>
+        <div class="photo-label">Now… the amazing you ✨</div>
+      </div>
+    </div>
+
+    <p class="row-label" style="margin-top: 32px;">Us, always 💕</p>
+    <div class="photos-row">
+      <div class="photo-card us">
+        <img src="us1.jpeg" alt="Us together" onerror="this.src='https://placehold.co/260x325/fce4ec/c2185b?text=Us+Together+💕'"/>
+        <div class="photo-label">Making memories 🎀</div>
+      </div>
+      <div class="photo-card us">
+        <img src="us2.jpeg" alt="Us together 2" onerror="this.src='https://placehold.co/260x325/f8bbd0/9c27b0?text=Best+Friends+🌸'"/>
+        <div class="photo-label">Best friends forever 🌸</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">✦ ✦ ✦</div>
+
+  <!-- Heartfelt message -->
+  <div class="message-card">
+    <h2>To my dearest Lakshuuu,</h2>
+    <p>
+      Words will never be enough to describe what you mean to me. From the little girl you once were, full of wonder and dreams, to the incredible, radiant woman you are today — watching you grow has been one of the greatest privileges of my life.
+    </p>
+    <p>
+      You have this rare gift of making everyone around you feel seen, loved, and a little more alive. Your laughter is my favourite sound in the entire world. Your hugs are my safest, warmest place. And your heart? It's the most beautiful thing I've ever known.
+    </p>
+    <p>
+      Every single memory we've made together — the silly ones, the emotional ones, the ones we still laugh about at 2 a.m. — they are the most treasured pages of my story. I didn't just find a friend in you, Lakshuuu. I found a home.
+    </p>
+    <p>
+      On this special day, I hope you feel every ounce of love the universe has been saving up just for you — because you deserve it all. The late nights, the secrets, the tears we turned into laughter, the random adventures that turned into core memories… I would choose every single moment again, ten times over, with you.
+    </p>
+    <p>
+      So here's to you. Here's to us. Here's to every birthday still to come — may each one be bigger, brighter, and filled with even more magic than the last. 🥂
+    </p>
+    <div class="signature">Forever yours, with all my love 💕<br>— Your best friend 🌸</div>
+  </div>
+
+  <!-- Reasons she's special -->
+  <h3 class="reasons-heading">✨ Why Lakshuuu is one in a million ✨</h3>
+  <div class="reasons">
+    <div class="reason-pill"><span class="icon">🌟</span><span class="text">My so called Amithab Mamaa</span></div>
+    <div class="reason-pill"><span class="icon">🤗</span><span class="text">past is past so enjoy your present and wish the best for the future</span></div>
+    <div class="reason-pill"><span class="icon">💪</span><span class="text">You never give up, even when it's hard</span></div>
+    <div class="reason-pill"><span class="icon">😂</span><span class="text">You make everything funnier just by being there</span></div>
+    <div class="reason-pill"><span class="icon">🎯</span><span class="text">jayapal</span></div>
+    <div class="reason-pill"><span class="icon">🌺</span><span class="text">Always in the mood of "Aadineyy Irupenn"</span></div>
+    <div class="reason-pill"><span class="icon">💫</span><span class="text">Recreate pannanum nu neraiya reels iruku aana innum onnume pannadhu illa</span></div>
+    <div class="reason-pill"><span class="icon">🧁</span><span class="text">Jolly ah iru aana konjam steps la mattum kavanama nadanthu po</span></div>
+    <div class="reason-pill"><span class="icon">🌙</span><span class="text">sekirom adutha year place aagiru dii</span></div>
+    <div class="reason-pill"><span class="icon">✨</span><span class="text">epovum pola calm and chill ah iru innum neraiya adventures lam paakura time varum</span></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="glow-text">"Growing old is mandatory, but growing up is optional — stay magical, Lakshuuu." 🌙</div>
+    <div class="emoji-row">🎀 🎂 💖 🌸 🎉</div>
+  </div>
+
+</div>
+
+<script>
+  /* ── Floating hearts ── */
+  const heartsBg = document.getElementById('heartsBg');
+  const emojis = ['💖','💕','🌸','✨','💗','🌺','💓','🎀'];
+  for (let i = 0; i < 24; i++) {
+    const el = document.createElement('span');
+    el.className = 'heart';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = (0.9 + Math.random() * 1.4) + 'rem';
+    el.style.animationDuration = (8 + Math.random() * 14) + 's';
+    el.style.animationDelay = (Math.random() * 12) + 's';
+    heartsBg.appendChild(el);
+  }
+
+  /* ── Countdown ── */
+  const overlay = document.getElementById('countdown-overlay');
+  const countEl = document.getElementById('count-display');
+  const popup   = document.getElementById('bday-popup');
+  let step = 0;
+  const steps = ['1', '2', '3'];
+
+  overlay.addEventListener('click', () => {
+    if (step < 3) {
+      countEl.textContent = steps[step];
+      countEl.classList.remove('pop');
+      void countEl.offsetWidth; // reflow to restart animation
+      countEl.classList.add('pop');
+      step++;
+    }
+    if (step === 3) {
+      // brief pause then show popup
+      setTimeout(() => {
+        overlay.classList.add('hidden');
+        setTimeout(() => {
+          overlay.style.display = 'none';
+          popup.classList.add('show');
+        }, 600);
+      }, 400);
+    }
+  });
+
+  function closePopup() {
+    popup.classList.remove('show');
+  }
+
+  /* ── Staggered reason pills ── */
+  document.querySelectorAll('.reason-pill').forEach((pill, i) => {
+    pill.style.opacity = '0';
+    pill.style.animation = 'none';
+    setTimeout(() => {
+      pill.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      pill.style.opacity = '1';
+    }, 1600 + i * 130);
+  });
+</script>
+</body>
+</html>
